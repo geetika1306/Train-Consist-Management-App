@@ -1,52 +1,41 @@
-import java.util.Arrays;
-
 public class TrainConsistMgmt {
 
     public static void main(String[] args) {
-        System.out.println("UC19 - Binary Search for Bogie ID\n");
+        System.out.println("UC20 - Exception Handling During Search\n");
 
-        // Create array of bogie IDs (unsorted allowed)
-        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
-
-        // Ensure array is sorted (precondition)
-        Arrays.sort(bogieIds);
+        // Empty bogie array (test fail-fast)
+        String[] bogieIds = {};
 
         // Search key
-        String key = "BG309";
+        String searchId = "BG101";
 
-        // Display sorted bogie IDs
-        System.out.println("Sorted Bogie IDs:");
-        for (String id : bogieIds) {
-            System.out.print(id + " ");
-        }
-
-        // Binary Search Logic
-        int low = 0;
-        int high = bogieIds.length - 1;
-        boolean found = false;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-
-            int comparison = key.compareTo(bogieIds[mid]);
-
-            if (comparison == 0) {
-                found = true;
-                break;
-            } else if (comparison < 0) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
+        try {
+            // ---- FAIL-FAST VALIDATION ----
+            if (bogieIds.length == 0) {
+                throw new IllegalStateException("No bogies available in the train!");
             }
+
+            // ---- SEARCH LOGIC (Linear Search) ----
+            boolean found = false;
+
+            for (String id : bogieIds) {
+                if (id.equals(searchId)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // Display result
+            if (found) {
+                System.out.println("Bogie ID " + searchId + " FOUND.");
+            } else {
+                System.out.println("Bogie ID " + searchId + " NOT FOUND.");
+            }
+
+        } catch (IllegalStateException e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
 
-        // Display result
-        if (found) {
-            System.out.println("\n\nBogie ID " + key + " FOUND.");
-        } else {
-            System.out.println("\n\nBogie ID " + key + " NOT FOUND.");
-        }
-
-        System.out.println("\nUC19 searching completed ...");
+        System.out.println("\nUC20 execution completed ...");
     }
 }
